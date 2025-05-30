@@ -34,7 +34,7 @@ const WeatherWidget = () => {
     'Kochi'
   ];
 
-  // Weather API configuration
+  // API configuration
   const WEATHER_API_KEY = '627b61f5f6254303be414119253005';
   const GEMINI_API_KEY = 'AIzaSyCF_PbDn7DN4-hzZFxTL7T2oZwKJ-_RBN0';
 
@@ -65,9 +65,49 @@ const WeatherWidget = () => {
     }
   };
 
-  const fetchMarketData = async () => {
+  const fetchMarketDataFromGemini = async () => {
     try {
-      // Simulating market data (replace with actual financial API)
+      const prompt = `Generate realistic current financial market data in JSON format. Include:
+      - A market index (like NIFTY, SENSEX, DOW, NASDAQ) with a realistic value
+      - A percentage change (positive or negative) 
+      - A brief news headline about current market conditions
+      
+      Format as JSON: {"change": "+1.2%", "value": "NIFTY 19,847", "news": "brief market news"}
+      
+      Make it realistic for current Indian and global markets.`;
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: prompt
+            }]
+          }]
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const aiText = data.candidates[0].content.parts[0].text;
+        
+        // Extract JSON from the AI response
+        const jsonMatch = aiText.match(/\{[^}]+\}/);
+        if (jsonMatch) {
+          const marketInfo = JSON.parse(jsonMatch[0]);
+          setMarketData(marketInfo);
+        } else {
+          throw new Error('Could not parse AI response');
+        }
+      } else {
+        throw new Error('Gemini API request failed');
+      }
+    } catch (error) {
+      console.error('Gemini market data error:', error);
+      // Fallback data
       const changes = ['+1.2%', '+2.4%', '-0.8%', '+3.1%', '-1.5%', '+0.9%'];
       const indices = ['NIFTY 19,847', 'SENSEX 66,543', 'DOW 34,567', 'NASDAQ 13,456'];
       const news = [
@@ -83,14 +123,45 @@ const WeatherWidget = () => {
         value: indices[Math.floor(Math.random() * indices.length)],
         news: news[Math.floor(Math.random() * news.length)]
       });
-    } catch (error) {
-      console.error('Market data error:', error);
     }
   };
 
   const fetchQuoteFromGemini = async () => {
     try {
-      // Note: This is a simplified approach. In production, use proper Gemini API integration
+      const prompt = `Generate an inspiring, motivational quote for today. It should be uplifting and relevant for personal or professional growth. Format your response as JSON with "text" and "author" fields. If you create an original quote, use "AI Generated" as the author. Example: {"text": "Your quote here", "author": "Author Name or AI Generated"}`;
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{
+              text: prompt
+            }]
+          }]
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const aiText = data.candidates[0].content.parts[0].text;
+        
+        // Extract JSON from the AI response
+        const jsonMatch = aiText.match(/\{[^}]+\}/);
+        if (jsonMatch) {
+          const quoteData = JSON.parse(jsonMatch[0]);
+          setQuote(quoteData);
+        } else {
+          throw new Error('Could not parse AI response');
+        }
+      } else {
+        throw new Error('Gemini API request failed');
+      }
+    } catch (error) {
+      console.error('Gemini quote error:', error);
+      // Fallback quotes
       const inspirationalQuotes = [
         {
           text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
@@ -107,24 +178,11 @@ const WeatherWidget = () => {
         {
           text: "The best time to plant a tree was 20 years ago. The second best time is now.",
           author: "Chinese Proverb"
-        },
-        {
-          text: "Your limitation—it's only your imagination.",
-          author: "Unknown"
-        },
-        {
-          text: "Dream it. Wish it. Do it.",
-          author: "Unknown"
         }
       ];
-
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
       
       const randomQuote = inspirationalQuotes[Math.floor(Math.random() * inspirationalQuotes.length)];
       setQuote(randomQuote);
-    } catch (error) {
-      console.error('Quote generation error:', error);
     }
   };
 
@@ -132,7 +190,7 @@ const WeatherWidget = () => {
     setLoading(true);
     await Promise.all([
       fetchWeatherData(),
-      fetchMarketData(),
+      fetchMarketDataFromGemini(),
       fetchQuoteFromGemini()
     ]);
     setLoading(false);
@@ -191,7 +249,7 @@ const WeatherWidget = () => {
             {loading ? 'Loading...' : marketData.news}
           </div>
           <div className="mt-2 text-xs text-green-500">
-            📈 Market Insights
+            📈 AI Generated Market Data
           </div>
         </div>
         
