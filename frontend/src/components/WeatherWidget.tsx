@@ -249,7 +249,7 @@ const WeatherWidget = () => {
             {loading ? 'Loading...' : marketData.news}
           </div>
           <div className="mt-2 text-xs text-green-500">
-            📈 AI Generated Market Data
+            📈 Today's Market Data
           </div>
         </div>
         
@@ -262,7 +262,7 @@ const WeatherWidget = () => {
             {loading ? '' : `- ${quote.author}`}
           </div>
           <div className="mt-2 text-xs text-purple-500">
-            ✨ AI Generated Quote
+            ✨ Today's Quote
           </div>
         </div>
       </div>
