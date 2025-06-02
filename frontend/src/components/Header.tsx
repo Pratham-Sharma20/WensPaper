@@ -21,7 +21,7 @@ const Header = () => {
         <div className="flex justify-between items-start">
           {/* Clock & Visit Counter */}
           <div className="text-sm text-center p-3 border border-black rounded-full w-36 h-36 flex flex-col justify-center items-center shadow-md">
-            <div className="text-blue-700 font-bold mb-1">CLOCK HERE</div>
+            
             <div className="text-xs text-gray-600">({visitCount} Views)</div>
             <div className="mt-2 text-black text-sm">{time.toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata" })}</div>
             <div className="text-xs mt-1">(IST)</div>
@@ -71,7 +71,7 @@ const Header = () => {
         </nav>
 
         {/* Secondary Nav Menu */}
-        <div className="grid grid-cols-4 md:grid-cols-8 text-xs md:text-sm font-semibold text-center mt-4 border border-black divide-x divide-black">
+        <div className="grid grid-cols-4 md:grid-cols-9 text-xs md:text-sm font-semibold text-center mt-4 border border-black divide-x divide-black">
           <Link to="/" className="py-2 px-1 hover:bg-gray-100">HOME<br />PAGE</Link>
           <Link to="/about" className="py-2 px-1 hover:bg-gray-100">ABOUT<br />WENSPAPER</Link>
           <Link to="/success-stories" className="py-2 px-1 hover:bg-gray-100">SUCCESS<br />STORIES</Link>
@@ -79,7 +79,8 @@ const Header = () => {
           <Link to="/marriage-profiles" className="py-2 px-1 hover:bg-gray-100">MARRIAGE<br />PROFILES</Link>
           <Link to="/business-ads" className="py-2 px-1 hover:bg-gray-100">BUSINESS<br />ADS</Link>
           <Link to="/epapers" className="py-2 px-1 hover:bg-gray-100">ePAPERS</Link>
-          <Link to="/advertise-contact" className="py-2 px-1 hover:bg-gray-100">ADVERTISE<br />WITH US<br />CONTACT<br />US</Link>
+          <Link to="/advertise" className="py-2 px-1 hover:bg-gray-100">ADVERTISE WITH US</Link>
+          <Link to="/contact" className="py-2 px-1 hover:bg-gray-100">Contact us</Link>
         </div>
       </div>
     </header>
