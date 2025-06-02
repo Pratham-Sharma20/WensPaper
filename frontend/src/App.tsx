@@ -11,6 +11,8 @@ import BusinessBrands from "./pages/BusinessBrands";
 import NotFound from "./pages/NotFound";
 import Footer from "./components/Footer";
 import Contact from "./pages/Contact";
+import Epaper from "./pages/Epaper";
+import Advertise from "./pages/Advertise";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,8 @@ const App = () => (
           <Route path="/marriage-profiles" element={<MarriageProfiles />} />
           <Route path="/business-brands" element={<BusinessBrands />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/epapers" element={<Epaper />} />
+          <Route path="/advertise" element={<Advertise />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
