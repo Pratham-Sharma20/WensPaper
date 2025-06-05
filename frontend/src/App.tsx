@@ -15,6 +15,7 @@ import Epaper from "./pages/Epaper";
 import Advertise from "./pages/Advertise";
 import JobsCareers from "./pages/JobsCareers";
 import BussinessAds from "./pages/BussinessAds";
+import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/advertise" element={<Advertise />} />
           <Route path="/jobs-careers" element={<JobsCareers />} />
           <Route path="/business-ads" element={<BussinessAds />} />
+          <Route path="/about" element={<About />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
